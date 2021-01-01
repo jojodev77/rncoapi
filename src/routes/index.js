@@ -1,8 +1,34 @@
 var express = require('express');
-var router = express.Router();
+var router = require("express").Router();
 
-router.get('/home', (req, res) => {
+var usersController = require("../controller/users.controller");
+var commentController = require("../controller/comments.controller");
+var InformationsController = require("../controller/informations.controller");
+const verifyToken = require("../validate.token");
+
+
+router.get('/', (req, res) => {
     res.send('Connexion-api-RNCO-system-privé')
     })
+
+    // user
+
+    router.post('/createUser',verifyToken, usersController.createUser);
+    router.post('/connexionUser', usersController.authWithToken);
+    router.get('/allUser',verifyToken, usersController.getAllUser);
+    router.delete('/deleteUser',verifyToken, usersController.deleteUser);
+
+    // comment
+
+    router.post('/createComment', commentController.createArticle);
+    router.get('/getAllComment', commentController.getAllComments);
+    router.put('/updateComment',verifyToken, commentController.updateComments);
+    router.post('/deleteComment',verifyToken, commentController.deleteComments);
+
+     // informations
+
+     router.post('/createInformations',verifyToken, InformationsController.createInformation);
+     router.get('/getAllInformations',verifyToken, InformationsController.getAllInformations);
+ 
 
     module.exports = router;

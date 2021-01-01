@@ -2,24 +2,24 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 const port = process.env.PORT;
-
+var cors = require('cors');
+var bodyParser = require('body-parser')
 
 var app = express();
 var route = require("./src/routes/index");
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({origin: '*' }));
 
+app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/rnco_api_private', route);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  res.status(404).send({ error: 'Page non trouver' })
+  res.status(404).send({ error: 'Page non trouvé' })
 });
 
 app.use(function(req, res, next) {
