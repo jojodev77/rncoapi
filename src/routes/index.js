@@ -16,12 +16,13 @@ router.get('/', (req, res) => {
     router.post('/createUser',verifyToken, usersController.createUser);
     router.post('/connexionUser', usersController.authWithToken);
     router.get('/allUser',verifyToken, usersController.getAllUser);
-    router.delete('/deleteUser',verifyToken, usersController.deleteUser);
+    router.post('/deleteUser',verifyToken, usersController.deleteUser);
 
     // comment
 
     router.post('/createComment', commentController.createArticle);
     router.get('/getAllComment', commentController.getAllComments);
+    router.get('/getAllCommentByValidate', commentController.getCommentsByValidate);
     router.put('/updateComment',verifyToken, commentController.updateComments);
     router.post('/deleteComment',verifyToken, commentController.deleteComments);
 
@@ -29,6 +30,6 @@ router.get('/', (req, res) => {
 
      router.post('/createInformations',verifyToken, InformationsController.createInformation);
      router.get('/getAllInformations',verifyToken, InformationsController.getAllInformations);
- 
+     router.post('/deleteInformations',verifyToken, InformationsController.deleteInformations);
 
     module.exports = router;

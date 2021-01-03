@@ -39,7 +39,6 @@ const createArticle = async (req, res) => {
 
 const updateComments = async (req, res) => {
   try {
-    console.log(req.body)
     model.Comment.update(req.body, {
       where: { id: req.body.id }
     })
@@ -84,9 +83,32 @@ const deleteComments = async (req, res) => {
   }
 };
 
+const getCommentsByValidate = async (req, res) => {
+  try {
+    model.Comment.findAll( {
+      where: { validate: [true] }
+    })
+      .then(comments => {
+        console.log(comments)
+        if (!comments) {
+          return res.status(404).send( "validate Not found.");
+        }
+  
+          res.status(200).send({
+            comments
+          });
+        })
+      .catch(err => {
+        res.status(500).send({err });
+      })}
+  catch (error) {
+    return res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
     createArticle,
-    // getArticleByValidate,
+    getCommentsByValidate,
     getAllComments,
     updateComments,
     deleteComments

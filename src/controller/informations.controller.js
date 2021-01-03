@@ -28,7 +28,33 @@ const createInformation = async (req, res) => {
     }
   }
 
+  const deleteInformations = async (req, res) => {
+    try {
+      model.Informations.destroy({
+        where: {
+          id: req.body.id,
+        }
+      })
+        .then(info => {
+          console.log(info)
+          if (!info) {
+            return res.status(404).send( "informations Not found.");
+          }
+    
+            res.status(200).send({
+              info
+            });
+          })
+        .catch(err => {
+          res.status(500).send({err });
+        })}
+    catch (error) {
+      return res.status(500).send(error.message);
+    }
+  };
+
 module.exports = {
     createInformation,
-    getAllInformations
+    getAllInformations,
+    deleteInformations
 }
